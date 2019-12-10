@@ -43,7 +43,7 @@ variable "images_values" {
 }
 
 variable "images_values_condn" {
-  value = ${contains(${var.images_values}, ${var.f5_image_name})}
+  value = ${contains(var.images_values, var.f5_image_name)}
 }
 
 resource "ibm_is_image" "f5_custom_image" {
