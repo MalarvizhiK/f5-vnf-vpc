@@ -3,16 +3,6 @@
 ##############################################################################
 
 ##############################################################################
-# ibmcloud_api_key - [Temp hack] Will be removed once IBM Provider supports 
-#                    IS Image Resource
-##############################################################################
-variable "ibmcloud_api_key" {
- default      = ""
- type         = "string"
- description  = "Temp Hack to workaround IBM IS Provider (Image Create) gap. The APIKey of the IBM Cloud account where resources will be provisioned."
-}
-
-##############################################################################
 # ibmcloud_vnf_svc_api_key - Cloud Service apikey hosting the F5-BIGIP 
 #                            image in COS. This variable is not shown to user.
 #                            The value for this variable is enter at offering
