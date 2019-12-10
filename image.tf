@@ -43,7 +43,7 @@ variable "images_values" {
 }
 
 resource "ibm_is_image" "f5_custom_image" {
-  count = "${contains("${var.images_values}", "${var.f5_image_name}")}" ? 0 : 1
+  count = "${contains(${var.images_values}, ${var.f5_image_name})}" ? 0 : 1
   depends_on       = ["ibm_iam_authorization_policy.authorize_image"]
   href             = "${var.vnf_f5bigip_cos_image_url}"
   name             = "${var.f5_image_name}"
