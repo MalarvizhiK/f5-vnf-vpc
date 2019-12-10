@@ -42,7 +42,7 @@ variable "vpc_name" {
 ##############################################################################
 # subnet_name - Subnet where resources are to be provisioned.
 ##############################################################################
-variable "subnet_name"{
+variable "subnet_id"{
   default = "f5-1arm-subnet"
   description =" The id of the subnet where F5-BIGIP VSI to be provisioned."
 }
