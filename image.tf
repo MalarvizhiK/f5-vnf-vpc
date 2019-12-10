@@ -39,7 +39,7 @@ data "ibm_is_images" "f5_custom_images_data" {
 }
 
 variable "images_values" {
-  value = "${data.ibm_is_image.f5_custom_images_data["name"].values}"
+  value = "${data.ibm_is_image.f5_custom_images_data[*]["name"].values}"
 }
 
 variable "images_values_condn" {
