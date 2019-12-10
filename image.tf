@@ -35,7 +35,8 @@ resource "ibm_iam_authorization_policy" "authorize_image" {
   target_resource_instance_id = "${var.vnf_f5bigip_cos_instance_id}"
 }
 
-resource "ibm_is_image" "f5_image" {
+resource "ibm_is_image" "f5_custom_image" {
+  depends_on       = ["ibm_iam_authorization_policy.authorize_image"]
   href             = "${var.vnf_f5bigip_cos_image_url}"
   name             = "${var.f5_image_name}"
   operating_system = "centos-7-amd64"
@@ -44,12 +45,4 @@ resource "ibm_is_image" "f5_image" {
     create = "30m"
     delete = "10m"
   }
-}
-##############################################################################
-# Read Custom Image using the image name and visibility
-##############################################################################
-data "ibm_is_image" "f5_custom_image" {
-  depends_on = ["ibm_is_image.f5_image"]
-  name       = "${var.f5_image_name}"
-  visibility = "private"
 }
