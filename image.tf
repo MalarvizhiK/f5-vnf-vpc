@@ -57,14 +57,14 @@ locals {
 
 data "external" "find_custom_image" {
   depends_on = ["data.ibm_is_vpc.f5_vpc"]
-  program    = ["bash", "${path.module}/scripts/find_custom_image.sh"]
+  program    = ["bash", "${path.module}/scripts/find_image.sh"]
 
   query = {
   }
 }
 
 variable "images_values_condn" {
-  default = "null"
+  value = "${lookup(data.external.find_custom_image.result, "id")}"
 }
 
 resource "ibm_is_image" "f5_custom_image" {
