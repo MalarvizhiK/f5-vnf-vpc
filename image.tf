@@ -53,7 +53,7 @@ variable "images_values_condn" {
 locals {
   images_values_id = "${contains(var.images_values, var.f5_image_name)}"
 }
-*/
+
 
 data "external" "find_custom_image" {
   depends_on = ["data.ibm_is_vpc.f5_vpc"]
@@ -70,7 +70,7 @@ data "external" "find_custom_image" {
   }
 }
 
-
+*/
 resource "ibm_is_image" "f5_custom_image" {
   // count = "${lookup(data.external.find_custom_image.result, "id")}"
   count = "${var.skip_f5_image_copy != "NO" ? 0: 1}"
