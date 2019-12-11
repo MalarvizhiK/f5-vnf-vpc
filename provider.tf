@@ -20,6 +20,12 @@ variable "ibmcloud_vnf_svc_api_key" {
  description  = "The APIKey of the IBM Cloud NFV service account that is hosting the F5-BIGIP qcow2 image file."
 }
 
+variable "ibmcloud_endpoint" {
+ default      = "test.cloud.ibm.com"
+ type         = "string"
+ description  = "IBM Cloud URL to execute VNF creation ."
+}
+
 variable "iam_endpoint" {
  default      = "iam.test.cloud.ibm.com"
  type         = "string"
