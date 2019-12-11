@@ -69,7 +69,6 @@ data "external" "find_custom_image" {
 	  name 				  = "${var.f5_image_name}"
   }
 }
-/*
 
 locals {
   images_values_condn = "${lookup(data.external.find_custom_image.result, "id")}"
@@ -89,7 +88,7 @@ resource "ibm_is_image" "f5_custom_image" {
   }
 }
 
-*/
+/*
 
 variable "images_values_condn" {
   value = "${lookup(data.external.find_custom_image.result, "id")}"
@@ -107,6 +106,7 @@ resource "ibm_is_image" "f5_custom_image" {
     delete = "10m"
   }
 }
+*/
 
 data "ibm_is_image" "f5_custom_image" {
   name="${var.f5_image_name}"
