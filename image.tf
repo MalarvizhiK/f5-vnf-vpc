@@ -70,13 +70,9 @@ data "external" "find_custom_image" {
   }
 }
 
-locals {
-  images_values_condn = "${lookup(data.external.find_custom_image.result, "id") != "null" ? 0 : 1}"
-}
-
 
 resource "ibm_is_image" "f5_custom_image" {
-  count = "${(local.images_values_condn)}"
+  count = "${lookup(data.external.find_custom_image.result, "id")"
   depends_on       = ["ibm_iam_authorization_policy.authorize_image", "data.external.find_custom_image"]
   href             = "${var.vnf_f5bigip_cos_image_url}"
   name             = "${var.f5_image_name}"
