@@ -25,6 +25,7 @@ function _log() {
 ## USAGE: parse_input
 ## Takes terrform input and sets global variables
 ####
+
 function parse_input() {
     if [[ -z "${ibmcloud_api_key}" ]] || [[ -z "${ibmcloud_endpoint}" ]] || [[ -z "${iam_endpoint}" ]] || [[ -z "${rias_endpoint}" ]] || [[ -z "${name}" ]] || [[ -z "${region}" ]] || [[ -z "${resource_group_id}" ]]; then
         eval "$(jq -r '@sh "ibmcloud_endpoint=\(.ibmcloud_endpoint) rias_endpoint=\(.rias_endpoint) ibmcloud_api_key=\(.ibmcloud_api_key) region=\(.region) resource_group_id=\(.resource_group_id) iam_endpoint=\(.iam_endpoint) name=\(.name)"')"
@@ -33,10 +34,15 @@ function parse_input() {
 
 function find_image() {
 
+echo "login to cloud"
+
     # Login to IBMCloud for given region and resource-group
     ibmcloud login -a ${ibmcloud_endpoint} --apikey "${ibmcloud_api_key}" -r "${region}"  &> $MSG_FILE
 
     export apikey="${ibmcloud_api_key}"
+
+   echo "apikey"
+echo $apikey
 
     export iam_token=`curl -k -X POST \
   --header "Content-Type: application/x-www-form-urlencoded" \
@@ -45,15 +51,24 @@ function find_image() {
   --data-urlencode "apikey=$apikey" \
   "https://${iam_endpoint}/identity/token"  |jq -r '(.token_type + " " + .access_token)'`	
 
+echo "iam_token"
+echo $iam_token
+
+echo "rias_endpoint"
+echo $rias_endpoint
+
+echo "name"
+echo $name
+
    curl -X GET "${rias_endpoint}/v1/images?version=2019-11-05&generation=1&visibility=private" -H "Authorization: $iam_token" > tmp.json
 
-   found=$(cat tmp.json | jq '.images[].name|select(. == "${name}")') 
+   found=$(cat tmp.json | jq '.images[].name|select(. == "f5-bigip-15-0-1-0-0-11")') 
 
 if [[ -z "$found" ]]
 then
       found="null"
 fi
-   
+
 }
 
 function produce_output() {
