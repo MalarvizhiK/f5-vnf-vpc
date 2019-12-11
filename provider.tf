@@ -33,7 +33,7 @@ variable "iam_endpoint" {
 }
 
 variable "rias_endpoint" {
- default      = "https://us-south-stage01.iaasdev.cloud.ibm.com"
+ default      = "https://us-south-stage01-ng.iaasdev.cloud.ibm.com"
  type         = "string"
  description  = "IBM Cloud RIAS endpoint URL to fecth all custom images."
 }
