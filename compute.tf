@@ -22,6 +22,7 @@ data "ibm_is_instance_profile" "f5_profile" {
 # Create F5-BIGIP virtual server.
 ##############################################################################
 resource "ibm_is_instance" "f5_vsi" {
+  depends_on       = ["data.ibm_is_image.f5_custom_image"]
   name    = "${var.f5_vsi_name}"
   image   = "${data.ibm_is_image.f5_custom_image.id}"
   profile = "${data.ibm_is_instance_profile.f5_profile.name}"
