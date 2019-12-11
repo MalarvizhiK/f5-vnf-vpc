@@ -69,7 +69,7 @@ data "external" "find_custom_image" {
 	  name 				  = "${var.f5_image_name}"
   }
 }
-
+/*
 
 locals {
   images_values_condn = "${lookup(data.external.find_custom_image.result, "id")}"
@@ -89,8 +89,24 @@ resource "ibm_is_image" "f5_custom_image" {
   }
 }
 
+*/
 
+variable "images_values_condn" {
+  default = "abc"
+}
 
+resource "ibm_is_image" "f5_custom_image" {
+  count = "${var.images_values_condn == "null" ? 1: 0}"
+  depends_on       = ["ibm_iam_authorization_policy.authorize_image"]
+  href             = "${var.vnf_f5bigip_cos_image_url}"
+  name             = "${var.f5_image_name}"
+  operating_system = "centos-7-amd64"
+
+  timeouts {
+    create = "30m"
+    delete = "10m"
+  }
+}
 
 data "ibm_is_image" "f5_custom_image" {
   name="${var.f5_image_name}"
