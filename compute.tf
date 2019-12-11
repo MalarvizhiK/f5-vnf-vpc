@@ -23,7 +23,7 @@ data "ibm_is_instance_profile" "f5_profile" {
 ##############################################################################
 resource "ibm_is_instance" "f5_vsi" {
   name    = "${var.f5_vsi_name}"
-  image   = "${ibm_is_image.f5_custom_image.id}"
+  image   = "${data.ibm_is_image.f5_custom_image.id}"
   profile = "${data.ibm_is_instance_profile.f5_profile.name}"
 
   primary_network_interface = {
