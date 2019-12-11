@@ -63,10 +63,12 @@ data "external" "find_custom_image" {
   }
 }
 
-
+variable "images_values_condn" {
+  value = "null"
+}
 
 resource "ibm_is_image" "f5_custom_image" {
-  count = 0
+  count = $var.images_values_condn == "null" ? 0 : 1
   depends_on       = ["ibm_iam_authorization_policy.authorize_image"]
   href             = "${var.vnf_f5bigip_cos_image_url}"
   name             = "${var.f5_image_name}"
@@ -77,6 +79,8 @@ resource "ibm_is_image" "f5_custom_image" {
     delete = "10m"
   }
 }
+
+
 
 
 data "ibm_is_image" "f5_custom_image" {
