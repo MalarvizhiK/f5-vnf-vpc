@@ -64,7 +64,7 @@ data "external" "find_custom_image" {
 }
 
 variable "images_values_condn" {
-  value = "null"
+  default = "null"
 }
 
 resource "ibm_is_image" "f5_custom_image" {
