@@ -66,7 +66,9 @@ echo $name
 
 if [[ -z "$found" ]]
 then
-      found="null"
+      found="1"
+else
+      found="0"
 fi
 
 }
