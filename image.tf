@@ -92,7 +92,6 @@ resource "ibm_is_image" "f5_custom_image" {
 */
 
 variable "images_values_condn" {
-  default = "null"
   value = "${lookup(data.external.find_custom_image.result, "id")}"
 }
 
