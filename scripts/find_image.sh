@@ -34,7 +34,7 @@ function parse_input() {
 function find_image() {
 
     # Login to IBMCloud for given region and resource-group
-    ibmcloud login -a ${ibmcloud_endpoint} --apikey "${ibmcloud_api_key}" -r "${region}" -g "${resource_group_id}" &> $MSG_FILE
+    ibmcloud login -a ${ibmcloud_endpoint} --apikey "${ibmcloud_api_key}" -r "${region}"  &> $MSG_FILE
 
     export apikey="${ibmcloud_api_key}"
 
