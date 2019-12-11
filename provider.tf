@@ -8,10 +8,28 @@
 #                            The value for this variable is enter at offering
 #                            onbaording time.
 ##############################################################################
+variable "ibmcloud_api_key" {
+ default      = ""
+ type         = "string"
+ description  = "The APIKey of the IBM Cloud customer's account where VSI, custom image are created ."
+}
+
 variable "ibmcloud_vnf_svc_api_key" {
  default      = ""
  type         = "string"
  description  = "The APIKey of the IBM Cloud NFV service account that is hosting the F5-BIGIP qcow2 image file."
+}
+
+variable "iam_endpoint" {
+ default      = "iam.test.cloud.ibm.com"
+ type         = "string"
+ description  = "IBM Cloud URL to create iam token ."
+}
+
+variable "rias_endpoint" {
+ default      = "https://us-south-stage01.iaasdev.cloud.ibm.com"
+ type         = "string"
+ description  = "IBM Cloud RIAS endpoint URL to fecth all custom images."
 }
 
 variable "region" {
