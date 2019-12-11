@@ -47,7 +47,7 @@ function find_image() {
 
    curl -X GET "${rias_endpoint}/v1/images?version=2019-11-05&generation=1&visibility=private" -H "Authorization: $iam_token" > tmp.json
 
-   found=$(cat tmp.json | jq '.images[].name|select(. == "f5-bigip-15-0-1-0-0-11")') 
+   found=$(cat tmp.json | jq '.images[].name|select(. == "${name}")') 
 
 if [[ -z "$found" ]]
 then
