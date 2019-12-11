@@ -21,25 +21,35 @@ function _log() {
     echo "$1" > "$MSG_FILE"
 }
 
+####
+## USAGE: parse_input
+## Takes terrform input and sets global variables
+####
+function parse_input() {
+    if [[ -z "${ibmcloud_api_key}" ]] || [[ -z "${ibmcloud_endpoint}" ]] || [[ -z "${iam_endpoint}" ]] || [[ -z "${rias_endpoint}" ]] || [[ -z "${name}" ]] || [[ -z "${region}" ]] || [[ -z "${resource_group_id}" ]]; then
+        eval "$(jq -r '@sh "ibmcloud_endpoint=\(.ibmcloud_endpoint) rias_endpoint=\(.rias_endpoint) ibmcloud_api_key=\(.ibmcloud_api_key) region=\(.region) resource_group_id=\(.resource_group_id) iam_endpoint=\(.iam_endpoint) name=\(.name)"')"
+    fi
+}
+
 function find_image() {
 
     # Login to IBMCloud for given region and resource-group
-    ibmcloud login -a test.cloud.ibm.com --apikey "YxcJOxqBL20UmOR3w4qX-ncCKIVvD47ugk1EOTDuSurr" -r "us-south"  
+    ibmcloud login -a ${ibmcloud_endpoint} --apikey "${ibmcloud_api_key}" -r "${region}" -g "${resource_group_id}" &> $MSG_FILE
 
-    export apikey="YxcJOxqBL20UmOR3w4qX-ncCKIVvD47ugk1EOTDuSurr"
+    export apikey="${ibmcloud_api_key}"
 
     export iam_token=`curl -k -X POST \
   --header "Content-Type: application/x-www-form-urlencoded" \
   --header "Accept: application/json" \
   --data-urlencode "grant_type=urn:ibm:params:oauth:grant-type:apikey" \
   --data-urlencode "apikey=$apikey" \
-  "https://iam.test.cloud.ibm.com/identity/token"  |jq -r '(.token_type + " " + .access_token)'`	
+  "https://${iam_endpoint}/identity/token"  |jq -r '(.token_type + " " + .access_token)'`	
 
-   curl -X GET "$rias_endpoint/v1/images?version=2019-11-05&generation=1&visibility=private" -H "Authorization: $iam_token" > tmp.json
+   curl -X GET "${rias_endpoint}/v1/images?version=2019-11-05&generation=1&visibility=private" -H "Authorization: $iam_token" > tmp.json
 
    found=$(cat tmp.json | jq '.images[].name|select(. == "f5-bigip-15-0-1-0-0-11")') 
 
-if [ -z "$found" ]
+if [[ -z "$found" ]]
 then
       $found="null"
 fi
@@ -53,5 +63,6 @@ function produce_output() {
 # Global variables shared by functoins
 MSG_FILE="/tmp/out.log" && rm -f "$MSG_FILE" &> /dev/null && touch "$MSG_FILE" &> /dev/null
 
+parse_input
 find_image
 produce_output
