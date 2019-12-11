@@ -60,6 +60,13 @@ data "external" "find_custom_image" {
   program    = ["bash", "${path.module}/scripts/find_image.sh"]
 
   query = {
+	  ibmcloud_endpoint   = "${var.ibmcloud_endpoint}"
+	  ibmcloud_api_key    = "${var.ibmcloud_api_key}"
+	  iam_endpoint        = "${var.iam_endpoint}"
+	  rias_endpoint        = "${var.rias_endpoint}"
+	  region              = "${data.ibm_is_region.region.name}"
+	  resource_group_id   = "${data.ibm_resource_group.rg.id}"
+	  name 				  = "${var.f5_image_name}"
   }
 }
 
