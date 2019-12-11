@@ -51,7 +51,7 @@ function find_image() {
 
 if [[ -z "$found" ]]
 then
-      $found="null"
+      found="null"
 fi
    
 }
