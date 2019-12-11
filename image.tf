@@ -107,7 +107,6 @@ resource "ibm_is_image" "f5_custom_image" {
     delete = "10m"
   }
 }
-*/
 
 data "ibm_is_image" "f5_custom_image" {
   name="${var.f5_image_name}"
