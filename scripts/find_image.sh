@@ -47,7 +47,7 @@ fi
 }
 
 function produce_output() {
-    jq -n --arg id "$found" '{"id":$id}'
+    jq -n --arg  "$found" '{"id":$id}'
 }
 
 # Global variables shared by functoins
