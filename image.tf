@@ -72,6 +72,7 @@ data "external" "find_custom_image" {
 }
 
 data "null_data_source" "values" {
+  depends_on = 	["ibm_iam_authorization_policy.authorize_image", "data.external.find_custom_image"]
   inputs = {
 	  resource_count = "${lookup(data.external.find_custom_image.result, "id")}"
   }
