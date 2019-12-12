@@ -71,6 +71,11 @@ data "external" "find_custom_image" {
   }
 }
 
+locals {
+  images_values_id = "${lookup(data.external.find_custom_image.result, "id")}"
+  depends_on = 	["ibm_iam_authorization_policy.authorize_image", "data.external.find_custom_image"]
+}
+
 data "null_data_source" "values" {
   depends_on = 	["ibm_iam_authorization_policy.authorize_image", "data.external.find_custom_image"]
   inputs = {
@@ -80,9 +85,10 @@ data "null_data_source" "values" {
 
 
 resource "ibm_is_image" "f5_custom_image" {
-  count = "${lookup(data.external.find_custom_image.result, "id")}"
+  // count = "${lookup(data.external.find_custom_image.result, "id")}"
   // count = "${var.skip_f5_image_copy != "NO" ? 0: 1}"
-  //count = "${data.null_data_source.values.outputs["resource_count"]}"
+  // count = "${data.null_data_source.values.outputs["resource_count"]}"
+  count = "${local.images_values_id}"
   // depends_on       = ["ibm_iam_authorization_policy.authorize_image", "data.external.find_custom_image"]
   depends_on       = ["ibm_iam_authorization_policy.authorize_image", "data.external.find_custom_image", "data.null_data_source.values"]
   href             = "${var.vnf_f5bigip_cos_image_url}"
