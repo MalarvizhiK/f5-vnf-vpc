@@ -54,6 +54,7 @@ locals {
   images_values_id = "${contains(var.images_values, var.f5_image_name)}"
 }
 
+*/
 
 data "external" "find_custom_image" {
   depends_on = ["data.ibm_is_vpc.f5_vpc"]
@@ -70,11 +71,9 @@ data "external" "find_custom_image" {
   }
 }
 
-*/
-
 data "null_data_source" "values" {
   inputs = {
-	  resource_count = 0
+	  resource_count = "${lookup(data.external.find_custom_image.result, "id")}"
   }
 }
 
@@ -84,7 +83,7 @@ resource "ibm_is_image" "f5_custom_image" {
   // count = "${var.skip_f5_image_copy != "NO" ? 0: 1}"
   count = "${data.null_data_source.values.outputs["resource_count"]}"
   // depends_on       = ["ibm_iam_authorization_policy.authorize_image", "data.external.find_custom_image"]
-  depends_on       = ["ibm_iam_authorization_policy.authorize_image", "data.null_data_source.values"]
+  depends_on       = ["ibm_iam_authorization_policy.authorize_image", "data.external.find_custom_image", "data.null_data_source.values"]
   href             = "${var.vnf_f5bigip_cos_image_url}"
   name             = "${var.f5_image_name}"
   operating_system = "centos-7-amd64"
